@@ -1,10 +1,12 @@
 import {
     GET_TODO_LIST,
+    DELETE_ITEM,
 } from "../actions/todoActions";
 
 let initialState = {
-    getTodoList: false,
-    errorTodoList: false,
+  getTodoList: false,
+  deleteTodo: false,
+  errorTodoList: false,
 }
 
 const todos = (state = initialState, action) => {
@@ -14,6 +16,12 @@ const todos = (state = initialState, action) => {
           ...state,
           getTodoList: action.payload.data,
           errorTodoList: action.payload.errorMessage,
+        };
+
+        case DELETE_ITEM:
+        return {
+          ...state,
+          deleteTodo: state.items.filter(deleteTodo => deleteTodo !== action.payload)
         };
   
       default:

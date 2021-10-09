@@ -24,7 +24,7 @@ const NavbarComponent = (props) => {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
-                <NavLink href="https://github.com/mkbakhtiar/majootest" target="_blank">Cek Github Repository</NavLink>
+                <NavLink href="https://github.com/mkbakhtiar/majoo" target="_blank">Cek Github Repository</NavLink>
               </NavItem>
             </Nav>
           </Collapse>

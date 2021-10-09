@@ -1,7 +1,17 @@
 import axios from "axios";
 
 export const GET_TODO_LIST = "GET_TODO_LIST";
+export const DELETE_ITEM = "DELETE_ITEM";
 
+
+export const deleteTodo = (id) => {
+  return (dispatch) => {
+    dispatch({
+      type: DELETE_ITEM,
+      payload: id,
+    });
+  }
+}
 export const getTodoList  = () => {
     return (dispatch) => {
         axios

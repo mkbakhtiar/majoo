@@ -4,14 +4,27 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import { connect } from "react-redux";
 import { Container, Button, Spinner, Modal, ModalHeader, ModalBody, ModalFooter  } from "reactstrap";
+import * as todoActions from '../actions/todoActions';
 
+
+
+const defaultSorted = [
+    {
+      dataField: "createdAt",
+      order: "asc",
+    },
+  ];
 
 const mapStateToProps = (state) => {    
+
     return {
       getTodoList: state.todos.getTodoList.data,
+      deleteTodo: state.todos.getTodoList.data,
       errorTodoList: state.todos.errorTodoList,
     };
 };
+
+
 const TableComponent = (props) => {
     const [modal, setModal] = useState(false);
     const [idTodo, setIdTodo] = useState();
@@ -29,12 +42,24 @@ const TableComponent = (props) => {
         setModal(!modal);
     }
 
+    const deleteContact = (id) => {
+        return {
+            type: todoActions.DELETE_ITEM,
+            id: id
+        }
+    }
+
     const headColumn =[{
         dataField : 'id',
         text: 'ID'
     }, {
         dataField : 'title',
         text: 'Title'
+    },{
+    }, {
+        dataField : 'createdAt',
+        text: 'Created At',
+        sort: true,
     },{
         dataField: "link",
         text: "Action",
@@ -49,7 +74,7 @@ const TableComponent = (props) => {
         },
     }];
 
-    
+   
 
     return (
         <Container>
@@ -59,6 +84,7 @@ const TableComponent = (props) => {
                 keyField="id"
                 data={props.getTodoList}
                 columns={headColumn}
+                defaultSorted={defaultSorted}
                 >
                     {(props) => (
                         <div>
@@ -68,11 +94,15 @@ const TableComponent = (props) => {
                             <Modal isOpen={modal} toggle={toggle}>
                                 <ModalHeader toggle={toggle}>{titleTodo}</ModalHeader>
                                 <ModalBody>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    <h3>Deskripsi : {desTodo}</h3>
+                                    <p>Status : {statusTodo}</p>
+                                    <p>Created At : {createAtTodo}</p>
                                 </ModalBody>
                                 <ModalFooter>
-                                <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-                                <Button color="secondary" onClick={toggle}>Cancel</Button>
+                                    <Link to={"edit/" + {idTodo}}>
+                                        <Button color="primary">Edit</Button>{' '}
+                                    </Link>
+                                <Button color="danger" onClick={() => deleteContact(idTodo)} >Hapus Data Ini</Button>
                                 </ModalFooter>
                             </Modal>
                         </div>
@@ -93,4 +123,5 @@ const TableComponent = (props) => {
     )
 }
 
-export default connect(mapStateToProps, null)(TableComponent);
+
+export default connect(mapStateToProps)(TableComponent);
